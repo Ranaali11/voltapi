@@ -14,8 +14,7 @@ app.use(bodyParser.json()); // ← Critical for POST JSON bodies
 // Load OpenAPI spec (use absolute path)
 let swaggerDocument;
 try {
-  const apiSpecPath = path.join(__dirname, 'doc.json');
-  swaggerDocument = JSON.parse(fs.readFileSync(apiSpecPath, 'utf8'));
+  const swaggerDocument = require('./doc.json');
 } catch (err) {
   console.error("Failed to load OpenAPI spec:", err);
   swaggerDocument = {}; // Fallback
