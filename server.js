@@ -22,7 +22,10 @@ try {
 }
 
 // Routes
-app.get('/', (req, res) => res.send('API is alive!'));
+// app.get('/', (req, res) => res.send('API is alive!'));
+// redirect /api-docs → /docs
+app.get('/', (req, res) => res.redirect('/docs'));
+
 
 // Scooter endpoints
 app.post('/api/scooter/start', (req, res) => {
@@ -32,8 +35,12 @@ app.post('/api/scooter/start', (req, res) => {
   res.json({ status: 'Scooter unlocked', imei: req.body.imei });
 });
 
-// Serve Swagger UI
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// serve at /api-docs
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
 
 // Error handling
 app.use((err, req, res, next) => {
