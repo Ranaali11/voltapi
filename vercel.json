@@ -1,15 +1,9 @@
 {
-  "version": 2,
-  "builds": [
+  "redirects": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/index.js"
+      "source": "/docs",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
