@@ -1,9 +1,13 @@
 {
-  "redirects": [
+  "functions": {
+    "api/scooter.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
     {
-      "source": "/docs",
-      "destination": "/index.html",
-      "permanent": true
+      "src": "/api/scooter/stop",
+      "dest": "/api/scooter.js"
     }
   ]
 }
