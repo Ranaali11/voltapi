@@ -1,0 +1,308 @@
+openapi: 3.0.0
+info:
+  title: Scooter REST API
+  version: 1.0.0
+  description: RESTful API documentation for controlling and tracking 3-wheel scooters.
+servers:
+  - url: http://localhost:5000
+    description: Local Dev Server
+paths:
+  /scooters/{imei}/lock:
+    post:
+      summary: Lock (stop) the scooter
+      description: Locks the scooter (send R0 + L1 command).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scooter locked
+
+  /scooters/{imei}/unlock:
+    post:
+      summary: Unlock (start) the scooter
+      description: Unlocks the scooter (send R0 + L0 command).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Scooter unlocked
+
+  /scooters/{imei}/location:
+    get:
+      summary: Get one-time GPS location
+      description: Retrieve the current GPS location of the scooter.
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current location data
+
+  /scooters/{imei}/tracking:
+    post:
+      summary: Start GPS tracking
+      description: Enable continuous GPS tracking for the scooter.
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GPS tracking started
+    delete:
+      summary: Stop GPS tracking
+      description: Disable continuous GPS tracking for the scooter.
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: GPS tracking stopped
+
+  /scooters/{imei}/settings/iot:
+    put:
+      summary: Update IoT device settings
+      description: Apply IoT device settings (S5).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: IoT settings applied
+
+  /scooters/{imei}/settings/setting1:
+    put:
+      summary: Apply setting instruction 1
+      description: Apply S7 setting instruction.
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Setting 1 applied
+
+  /scooters/{imei}/settings/setting2:
+    put:
+      summary: Apply setting instruction 2
+      description: Apply S4 setting instruction.
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Setting 2 applied
+
+  /scooters/{imei}/alarm:
+    post:
+      summary: Trigger alarm
+      description: Send alarm command (W0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alarm command sent
+
+  /scooters/{imei}/beep:
+    post:
+      summary: Play beep
+      description: Send beep command (V0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Beep command sent
+
+  /scooters/{imei}/firmware:
+    get:
+      summary: Get firmware version
+      description: Retrieve firmware version (G0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Firmware info received
+
+  /scooters/{imei}/faults:
+    post:
+      summary: Upload controller fault
+      description: Upload controller fault data (E0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Fault uploaded
+
+  /scooters/{imei}/upgrade/check:
+    get:
+      summary: Check for upgrade
+      description: Detect if an upgrade is available (U0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Upgrade check completed
+
+  /scooters/{imei}/upgrade/data:
+    post:
+      summary: Send upgrade data
+      description: Send upgrade data packets (U1).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Upgrade data sent
+
+  /scooters/{imei}/upgrade/complete:
+    post:
+      summary: Notify upgrade complete
+      description: Notify scooter that upgrade is complete (U2).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Upgrade success acknowledged
+
+  /scooters/{imei}/ble-key:
+    get:
+      summary: Get BLE key
+      description: Retrieve the BLE key (K0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: BLE key retrieved
+    put:
+      summary: Set BLE key
+      description: Set the BLE key (K0).
+      parameters:
+        - name: imei
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: BLE key updated

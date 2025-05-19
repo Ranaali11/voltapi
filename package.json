@@ -1,11 +1,9 @@
 {
-  "name": "scooter-api",
+  "name": "my-scooter-api",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "vercel dev"
   },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+  "dependencies": {}
 }
